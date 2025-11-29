@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState, useEffect } from "react";
 import {
@@ -6,7 +7,6 @@ import {
   ArrowRight,
   Star,
   Send,
-  User,
   Mail,
   Phone,
   MapPin,
@@ -20,12 +20,21 @@ import {
   Award,
 } from "lucide-react";
 
+type MenuTab = "morning" | "lunch" | "evening" | "dinner";
+
+interface MenuItem {
+  name: string;
+  desc: string;
+  price: string;
+  image: string;
+}
+
 const FoodyRestaurant = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("morning");
+  const [activeTab, setActiveTab] = useState<MenuTab>("morning");
   const [heroIndex, setHeroIndex] = useState(0);
 
-  const menuItems = {
+  const menuItems: Record<MenuTab, MenuItem[]> = {
     morning: [
       {
         name: "Breakfast Burger",
@@ -155,7 +164,7 @@ const FoodyRestaurant = () => {
       setHeroIndex((prev) => (prev + 1) % heroImages.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [heroImages.length]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -335,19 +344,21 @@ const FoodyRestaurant = () => {
 
           <div className="max-w-5xl mx-auto bg-gray-900 rounded-3xl p-6 md:p-8 shadow-2xl">
             <div className="flex flex-wrap gap-4 mb-8 justify-center">
-              {["morning", "lunch", "evening", "dinner"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-6 py-3 rounded-full font-semibold capitalize transition-all transform hover:scale-105 ${
-                    activeTab === tab
-                      ? "bg-gradient-to-r from-red-600 to-yellow-500 text-white shadow-lg"
-                      : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
+              {(["morning", "lunch", "evening", "dinner"] as MenuTab[]).map(
+                (tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-6 py-3 rounded-full font-semibold capitalize transition-all transform hover:scale-105 ${
+                      activeTab === tab
+                        ? "bg-gradient-to-r from-red-600 to-yellow-500 text-white shadow-lg"
+                        : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                )
+              )}
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
@@ -677,11 +688,11 @@ const FoodyRestaurant = () => {
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-red-500" />
-                  <span className="text-gray-400">+234 (81) 390-060492</span>
+                  <span className="text-gray-400">+234 (813) 906-0492</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-red-500" />
-                  <span className="text-gray-400">boyeadisa@gmil.com</span>
+                  <span className="text-gray-400">boyeadisa@gmail.com</span>
                 </li>
               </ul>
             </div>
